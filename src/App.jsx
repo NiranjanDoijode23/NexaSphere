@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
+
 import './styles/themes.css';
 import './styles/globals.css';
 import './styles/animations.css';
@@ -9,7 +10,7 @@ import './styles/portfolio.css';
 import './styles/aurora.css';
 import './styles/motion.css';
 import SearchBar from './components/SearchBar';
-
+import FloatingDock from "./components/common/FloatingDock";
 import ParticleBackground  from './shared/ParticleBackground';
 import GeometricGridBackground from './shared/GeometricGridBackground';
 import ScrollProgress      from './shared/ScrollProgress';
@@ -123,10 +124,7 @@ function Cursor() {
       if (glowRef.current) glowRef.current.style.display = 'block';
     };
 
-    const tick = () => {
-
-      const opacity = s.visible ? (s.hovering ? 0.95 : 0.82) : 0;
-
+    
     const tick = () => {
       s.ox += (s.mx - s.ox) * 1.00;
       s.oy += (s.my - s.oy) * 1.00;
@@ -136,24 +134,7 @@ function Cursor() {
                + Math.sin(s.floatPhase * 0.5) * 1;
       const fy = s.oy + s.floatY;
 
-      const scale = s.clicking ? 0.7 : s.hovering ? 1.55 : 1;
-
-    if (orbRef.current) {
-      orbRef.current.style.left = s.ox + 'px';
-      orbRef.current.style.top = fy + 'px';
-      orbRef.current.style.transform = `translate(-50%,-50%) scale(${scale})`;
-      orbRef.current.style.opacity = s.visible ? (s.hovering ? 0.95 : 0.82) : 0;
-    }
-    if (trailRef.current) {
-      trailRef.current.style.left = s.ox + 'px';
-      trailRef.current.style.top = s.oy + s.floatY * 0.4 + 'px';
-      trailRef.current.style.opacity = s.visible ? (s.hovering ? 0 : 0.35) : 0; 
-    }
-    if (glowRef.current) {
-      glowRef.current.style.left = s.mx + 'px';
-      glowRef.current.style.top = s.my + 'px';
-      glowRef.current.style.opacity = s.visible ? 1 : 0; 
-    }
+    
       const scale   = s.clicking ? 0.7 : s.hovering ? 1.55 : 1;
       const opacity = s.hovering ? 0.95 : 0.82;
       if (orbRef.current) {
@@ -572,7 +553,10 @@ export default function App() {
           else if (type === 'Roadmap') onTab('Roadmaps');
         }}
       />
+      {cinDone && <FloatingDock />}
     </BookmarkProvider>
+
+    
   );
 }
 
