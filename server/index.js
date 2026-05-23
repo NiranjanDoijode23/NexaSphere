@@ -876,6 +876,10 @@ if (!process.env.VERCEL) {
   });
 } else {
   // Vercel/Render style deployments rely on the platform to start the server.
+  // Global 404 handler for undefined API routes
+app.use('*', (req, res) => {
+  res.status(404).json({ error: 'Endpoint not found' });
+});
   const server = app.listen(port, () => {
     // eslint-disable-next-line no-console
     console.log(`NexaSphere server listening on http://localhost:${port}`);
